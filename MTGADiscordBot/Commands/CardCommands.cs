@@ -15,6 +15,7 @@ namespace MTGADiscordBot.Commands
 {
     public class CardCommands : BaseCommandModule
     {
+        #region GeneratePool Command
         [Command("generatepool")]
         [Description("takes a 3 character set type to generate your uncommon and common cards (24 common, 12 common) i.e !generatepool m21")]
         public async Task GeneratePool(CommandContext ctx, string setAbbr)
@@ -28,7 +29,7 @@ namespace MTGADiscordBot.Commands
                 .ConfigureAwait(false);
             for (int x = 0; x < 24; x++)
             {
-                var URI = "https://api.scryfall.com/cards/random?q=s%3A" + setAbbr + "+r%3Acommon+-t%3Abasic+-t%3Aland";
+                var URI = "https://api.scryfall.com/cards/random?q=s%3A" + setAbbr + "+r%3Acommon+-t%3Abasic";
                 WebClient client = new WebClient();
                 string reply = client.DownloadString(URI);
                 var card = JsonConvert.DeserializeObject<JsonCard>(reply);
@@ -75,5 +76,22 @@ namespace MTGADiscordBot.Commands
             File.Delete(ctx.User.Username.ToString() + "-cardlist.txt");
             #endregion
         }
+        #endregion
+        #region Random Rare
+        public async Task RandomRare(CommandContext ctx, string setAbbr)
+        {
+            var URI = "https://api.scryfall.com/cards/random?q=s%3A" + setAbbr + "+r%3Acommon+-t%3Abasic";
+            WebClient client = new WebClient();
+            string reply = client.DownloadString(URI);
+            var card = JsonConvert.DeserializeObject<JsonCard>(reply);
+
+            await ctx.Channel
+                .SendMessageAsync("1 " + card.Cardname.ToString() + " (" + card.Setabbr.ToString() + ")")
+                .ConfigureAwait(false);
+
+            Thread.Sleep(500);
+        }
+        #endregion
     }
+
 }
