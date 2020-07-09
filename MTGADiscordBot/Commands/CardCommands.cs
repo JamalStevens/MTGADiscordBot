@@ -16,6 +16,7 @@ namespace MTGADiscordBot.Commands
     public class CardCommands : BaseCommandModule
     {
         [Command("generatepool")]
+        [Description("takes a 3 character set type to generate your uncommon and common cards (24 common, 12 common) i.e !generatepool m21")]
         public async Task GeneratePool(CommandContext ctx, string setAbbr)
         {
             List<string> cards = new List<string>();
@@ -52,7 +53,7 @@ namespace MTGADiscordBot.Commands
 
             for (int x = 0; x < 12; x++)
             {
-                var URI = "https://api.scryfall.com/cards/random?q=s%3A" + setAbbr + "+r%3Auncommon+-t%3Abasic+-t%3Aland";
+                var URI = "https://api.scryfall.com/cards/random?q=s%3A" + setAbbr + "+r%3Auncommon+-t%3Abasic";
                 WebClient client = new WebClient();
                 string reply = client.DownloadString(URI);
                 var card = JsonConvert.DeserializeObject<JsonCard>(reply);
