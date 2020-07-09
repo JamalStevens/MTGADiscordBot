@@ -6,14 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="bin\Debug\netcoreapp3.1\" />
     <Folder Include="obj\" />
   </ItemGroup>
